@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="configproperties"
+        class="net.wuenschenswert.spring.ReloadablePropertiesFactoryBean">
+    <property name="location" value="file:src/test/net/wuenschenswert/spring/example/config.properties"/>
+  </bean>
+
+  <bean id="propertyConfigurer"
+        class="net.wuenschenswert.spring.ReloadingPropertyPlaceholderConfigurer">
+    <property name="properties" ref="configproperties"/>
+  </bean>
+
+  <bean id="mybean" class="net.wuenschenswert.spring.example.MyBean">
+    <property name="cachesize" value="#{my.cache.size=100}"/>
+  </bean>
+
+  <!-- regularly reload property files. -->
+  <bean id="timer" class="org.springframework.scheduling.timer.TimerFactoryBean">
+    <property name="scheduledTimerTasks">
+      <bean id="reloadProperties" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+	<property name="period" value="1000"/>
+	<property name="runnable">
+	  <bean class="net.wuenschenswert.spring.ReloadConfiguration">
+	    <property name="reconfigurableBeans">
+	      <list>
+		<ref bean="configproperties"/>
+                <!-- others... -->
+	      </list>
+	    </property>
+	  </bean>
+	</property>
+      </bean>
+    </property>
+    <!-- allow the application to shut down even if the application context is not shut down properly. -->
+    <property name="daemon" value="true"/>
+  </bean>
+
+</beans>

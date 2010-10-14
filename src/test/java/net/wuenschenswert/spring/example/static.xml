@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="configproperties"
+        class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <property name="location" value="file:src/test/net/wuenschenswert/spring/example/config.properties"/>
+  </bean>
+
+  <bean id="propertyConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="properties" ref="configproperties"/>
+  </bean>
+
+  <bean id="mybean" class="net.wuenschenswert.spring.example.MyBean">
+    <property name="cachesize" value="${my.cache.size}"/>
+  </bean>
+
+</beans>

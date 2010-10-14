@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+  <bean id="properties" class="net.wuenschenswert.spring.TstReloadableProperties">
+    <property name="properties">
+      <props>
+        <prop key="foo">fooval</prop>
+        <prop key="bar">barval</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="configurer" class="net.wuenschenswert.spring.ReloadingPropertyPlaceholderConfigurer">
+    <property name="properties" ref="properties"/>
+  </bean>
+
+  <bean id="guineePig" class="net.wuenschenswert.spring.TstBean">
+    <property name="propA" value="#{foo}"/>
+    <property name="propB" value="#{bar}"/>
+  </bean>
+</beans>
