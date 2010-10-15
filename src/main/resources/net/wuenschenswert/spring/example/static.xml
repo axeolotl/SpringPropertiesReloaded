@@ -5,7 +5,7 @@
 
   <bean id="configproperties"
         class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-    <property name="location" value="file:src/test/net/wuenschenswert/spring/example/config.properties"/>
+    <property name="location" value="file:src/main/resources/net/wuenschenswert/spring/example/config.properties"/>
   </bean>
 
   <bean id="propertyConfigurer"
